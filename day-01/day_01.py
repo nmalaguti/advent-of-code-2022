@@ -1,5 +1,5 @@
 import fileinput
-from heapq import heappush, heappop, heapreplace
+from heapq import heapreplace
 
 
 def part_1():
@@ -18,6 +18,7 @@ def part_1():
 
     print(max_cal)
 
+
 def part_2():
     max_cals = [0] * 3
     running_cal = 0
@@ -35,6 +36,7 @@ def part_2():
         heapreplace(max_cals, running_cal)
 
     print(sum(max_cals))
+
 
 if __name__ == "__main__":
     part_1()

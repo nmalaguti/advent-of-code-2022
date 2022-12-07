@@ -7,6 +7,8 @@ name = "pypi"
 more-itertools = "*"
 invoke = "*"
 fs = "*"
+black = "*"
+isort = "*"
 
 [dev-packages]
 

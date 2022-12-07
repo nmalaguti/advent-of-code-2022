@@ -7,9 +7,15 @@ def part_1(lines):
         left, right = line.split(",")
         left_start, left_end = map(int, left.split("-"))
         right_start, right_end = map(int, right.split("-"))
-        if left_start <= right_start <= left_end and left_start <= right_end <= left_end:
+        if (
+            left_start <= right_start <= left_end
+            and left_start <= right_end <= left_end
+        ):
             count += 1
-        elif right_start <= left_start <= right_end and right_start <= left_end <= right_end:
+        elif (
+            right_start <= left_start <= right_end
+            and right_start <= left_end <= right_end
+        ):
             count += 1
     return count
 

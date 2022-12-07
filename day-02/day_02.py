@@ -1,6 +1,6 @@
 import fileinput
-from functools import total_ordering, cached_property
 from enum import Enum, auto
+from functools import cached_property, total_ordering
 
 
 class Move(Enum):

@@ -1,5 +1,6 @@
-from stdlib import *
 from pathlib import PurePosixPath
+
+from stdlib import *
 
 
 def make_fs(lines):
@@ -12,7 +13,7 @@ def make_fs(lines):
             if command == "ls":
                 continue
             else:
-                directory, = rest
+                (directory,) = rest
                 curr_dict = curr_dict[directory]
         else:
             size, name = line.split()

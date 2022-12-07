@@ -1,12 +1,12 @@
 import fileinput
 
-from more_itertools import divide, one, ichunked
+from more_itertools import divide, ichunked, one
 
 
 def priority(char):
-    if ord('a') <= ord(char) <= ord('z'):
-        return ord(char) - ord('a') + 1
-    return ord(char) - ord('A') + 27
+    if ord("a") <= ord(char) <= ord("z"):
+        return ord(char) - ord("a") + 1
+    return ord(char) - ord("A") + 27
 
 
 def part_1(lines):
