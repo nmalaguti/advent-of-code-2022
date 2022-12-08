@@ -1,13 +1,14 @@
 import fileinput
 import re
-from more_itertools import *
-from pprint import pprint
 from collections import *
 from itertools import *
+from pprint import pprint
+
+from more_itertools import *
 
 
 def ints(line):
-    return [int(x) for x in re.findall(r'-?\d+', line)]
+    return [int(x) for x in re.findall(r"-?\d+", line)]
 
 
 def read_input(filename="input"):
