@@ -1,10 +1,13 @@
 import fileinput
 import re
 from collections import *
+from functools import partial
 from itertools import *
 from pprint import pprint
 
 from more_itertools import *
+
+DEBUG = False
 
 
 def ints(line):
