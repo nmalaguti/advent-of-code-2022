@@ -1,41 +1,37 @@
+from funcy import compose
 from stdlib import *
+
+
+def walk_grid(width, height):
+    for x in range(width):
+        yield -1, -1
+        for y in range(height):
+            yield x, y
+
+
+def rotate(pair):
+    return pair[1], pair[0]
 
 
 def part_1(lines):
     grid = [list(map(int, (c for c in line))) for line in lines]
     visible = set()
 
-    # top
-    for x in range(len(grid[0])):
-        col_height = -1
-        for y in range(len(grid)):
-            if grid[y][x] > col_height:
-                visible.add((x, y))
-                col_height = grid[y][x]
+    x_max = len(grid[0])
+    y_max = len(grid)
 
-    # left
-    for y in range(len(grid)):
-        row_height = -1
-        for x in range(len(grid[0])):
-            if grid[y][x] > row_height:
-                visible.add((x, y))
-                row_height = grid[y][x]
+    rotated = partial(map, rotate)
+    pipeline = [(), (reversed,), (rotated,), (rotated, reversed)]
 
-    # right
-    for y in range(len(grid) - 1, -1, -1):
-        row_height = -1
-        for x in range(len(grid[0]) - 1, -1, -1):
-            if grid[y][x] > row_height:
+    for steps in pipeline:
+        func = compose(*steps, list, walk_grid)
+        height = -1
+        for x, y in func(x_max, y_max):
+            if x == -1 and y == -1:
+                height = -1
+            elif grid[y][x] > height:
                 visible.add((x, y))
-                row_height = grid[y][x]
-
-    # bottom
-    for x in range(len(grid[0]) - 1, -1, -1):
-        col_height = -1
-        for y in range(len(grid) - 1, -1, -1):
-            if grid[y][x] > col_height:
-                visible.add((x, y))
-                col_height = grid[y][x]
+                height = grid[y][x]
 
     return len(visible)
 
@@ -43,35 +39,31 @@ def part_1(lines):
 def part_2(lines):
     grid = [list(map(int, (c for c in line))) for line in lines]
     best_scenic_score = 0
-    for gx in range(len(grid[0])):
-        for gy in range(len(grid)):
+
+    x_max = len(grid[0])
+    y_max = len(grid)
+
+    for gx in range(x_max):
+        for gy in range(y_max):
             left = 0
             right = 0
             top = 0
             bottom = 0
-            for x in range(gx + 1, len(grid[0])):
-                if grid[gy][x] < grid[gy][gx]:
-                    right += 1
+            for x in range(gx + 1, x_max):
+                right += 1
                 if grid[gy][x] >= grid[gy][gx]:
-                    right += 1
                     break
-            for y in range(gy + 1, len(grid)):
-                if grid[y][gx] < grid[gy][gx]:
-                    bottom += 1
+            for y in range(gy + 1, y_max):
+                bottom += 1
                 if grid[y][gx] >= grid[gy][gx]:
-                    bottom += 1
                     break
             for x in range(gx - 1, -1, -1):
-                if grid[gy][x] < grid[gy][gx]:
-                    left += 1
+                left += 1
                 if grid[gy][x] >= grid[gy][gx]:
-                    left += 1
                     break
             for y in range(gy - 1, -1, -1):
-                if grid[y][gx] < grid[gy][gx]:
-                    top += 1
+                top += 1
                 if grid[y][gx] >= grid[gy][gx]:
-                    top += 1
                     break
             best_scenic_score = max(best_scenic_score, left * right * bottom * top)
 

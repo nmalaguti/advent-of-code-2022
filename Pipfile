@@ -9,6 +9,7 @@ invoke = "*"
 fs = "*"
 black = "*"
 isort = "*"
+funcy = "*"
 
 [dev-packages]
 
