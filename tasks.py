@@ -16,3 +16,4 @@ def new_day(c):
     next_day_dir.mkdir()
     copyfile(curr_dir / "template.py", next_day_dir / f"day_{next_day:02d}.py")
     (next_day_dir / "input").touch()
+    (next_day_dir / "example").touch()
