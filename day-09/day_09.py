@@ -37,15 +37,19 @@ def follow_knot(h, t):
     return t
 
 
+def move_knots(direction, knots):
+    knots[0] = move_knot(direction, knots[0])
+    for i in range(1, len(knots)):
+        knots[i] = follow_knot(knots[i - 1], knots[i])
+
+
 def part_1(lines):
     knots = [(0, 0)] * 2
     visited = set()
     for line in lines:
         direction, steps = line.split()
         for _ in range(int(steps)):
-            knots[0] = move_knot(direction, knots[0])
-            for i in range(1, len(knots)):
-                knots[i] = follow_knot(knots[i - 1], knots[i])
+            move_knots(direction, knots)
             visited.add(knots[-1])
     return len(visited)
 
@@ -74,9 +78,7 @@ def part_2(lines):
         if DEBUG:
             print("==", line, "==", "\n")
         for _ in range(int(steps)):
-            knots[0] = move_knot(direction, knots[0])
-            for i in range(1, len(knots)):
-                knots[i] = follow_knot(knots[i - 1], knots[i])
+            move_knots(direction, knots)
             visited.add(knots[-1])
         if DEBUG:
             grid(knots, [])
