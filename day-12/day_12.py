@@ -1,0 +1,64 @@
+import sys
+
+import networkx as nx
+from stdlib import *
+
+
+def neighbors(loc, G):
+    x, y = loc
+    for n in [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]:
+        if n in G:
+            yield n, G.nodes[n]["value"]
+
+
+def make_graph(lines):
+    G = nx.DiGraph()
+    start = None
+    end = None
+    for y, line in enumerate(lines):
+        for x, char in enumerate(line):
+            loc = x, y
+            if char == "S":
+                start = loc
+                value = ord("a") - ord("a")
+            elif char == "E":
+                end = loc
+                value = ord("z") - ord("a")
+            else:
+                value = ord(char) - ord("a")
+            G.add_node(loc, value=value)
+
+    for loc, value in G.nodes(data="value"):
+        for n, n_value in neighbors(loc, G):
+            if n_value - value <= 1:
+                G.add_edge(loc, n)
+
+    if DEBUG:
+        print(start, end)
+        pprint(nx.to_dict_of_lists(G))
+
+    return G, start, end
+
+
+def part_1(lines):
+    return nx.shortest_path_length(*make_graph(lines))
+
+
+def part_2(lines):
+    G, start, end = make_graph(lines)
+    min_length = sys.maxsize
+    for loc, value in ((k, v) for k, v in G.nodes(data="value") if v == 0):
+        try:
+            min_length = min(
+                min_length, nx.shortest_path_length(G, source=loc, target=end)
+            )
+        except nx.NetworkXNoPath:
+            pass
+
+    return min_length
+
+
+if __name__ == "__main__":
+    input_lines = read_input()
+    print("Part 1:", part_1(input_lines) or "")
+    print("Part 2:", part_2(input_lines) or "")
