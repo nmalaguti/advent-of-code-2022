@@ -1,5 +1,3 @@
-import sys
-
 import networkx as nx
 from stdlib import *
 
@@ -46,16 +44,8 @@ def part_1(lines):
 
 def part_2(lines):
     G, start, end = make_graph(lines)
-    min_length = sys.maxsize
-    for loc, value in ((k, v) for k, v in G.nodes(data="value") if v == 0):
-        try:
-            min_length = min(
-                min_length, nx.shortest_path_length(G, source=loc, target=end)
-            )
-        except nx.NetworkXNoPath:
-            pass
-
-    return min_length
+    P = nx.shortest_path_length(G, target=end)
+    return min(P[loc] for loc in P if G.nodes[loc]["value"] == 0)
 
 
 if __name__ == "__main__":
