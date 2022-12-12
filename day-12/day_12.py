@@ -5,8 +5,8 @@ from stdlib import *
 def neighbors(loc, G):
     x, y = loc
     for n in [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]:
-        if n in G:
-            yield n, G.nodes[n]["value"]
+        if n in G and G.nodes[n]["value"] - G.nodes[loc]["value"] <= 1:
+            yield n
 
 
 def make_graph(lines):
@@ -27,9 +27,8 @@ def make_graph(lines):
             G.add_node(loc, value=value)
 
     for loc, value in G.nodes(data="value"):
-        for n, n_value in neighbors(loc, G):
-            if n_value - value <= 1:
-                G.add_edge(loc, n)
+        for n in neighbors(loc, G):
+            G.add_edge(loc, n)
 
     if DEBUG:
         print(start, end)
