@@ -20,3 +20,7 @@ def read_input(filename="input"):
 
 def identity(x):
     return x
+
+
+def inverse_identity(x):
+    return not x
