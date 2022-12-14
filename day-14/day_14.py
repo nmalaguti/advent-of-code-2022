@@ -52,10 +52,17 @@ def part_1(lines):
     if DEBUG:
         draw_grid(generation, grid)
 
+    sand_path = deque()
+
     while True:
         generation += 1
-        new_sand_x, new_sand_y = grid.origin
+
+        if not sand_path:
+            sand_path.append(grid.origin)
+
+        new_sand_x, new_sand_y = sand_path.pop()
         while True:
+            sand_path.append((new_sand_x, new_sand_y))
             if grid.grid.get((new_sand_x, new_sand_y + 1), ".") == ".":
                 new_sand_y += 1
             elif grid.grid.get((new_sand_x - 1, new_sand_y + 1), ".") == ".":
@@ -65,6 +72,7 @@ def part_1(lines):
                 new_sand_x += 1
                 new_sand_y += 1
             else:
+                sand_path.pop()
                 break
 
             if (
@@ -86,10 +94,17 @@ def part_2(lines):
     if DEBUG:
         draw_grid(generation, grid, floor="$")
 
+    sand_path = deque()
+
     while True:
         generation += 1
-        new_sand_x, new_sand_y = grid.origin
+        if not sand_path:
+            sand_path.append(grid.origin)
+
+        new_sand_x, new_sand_y = sand_path.pop()
+
         while True:
+            sand_path.append((new_sand_x, new_sand_y))
             if (
                 grid.grid.get(
                     (new_sand_x, new_sand_y + 1),
@@ -117,6 +132,7 @@ def part_2(lines):
                 new_sand_x += 1
                 new_sand_y += 1
             else:
+                sand_path.pop()
                 break
 
             if not grid.min_x < new_sand_x < grid.max_x:
