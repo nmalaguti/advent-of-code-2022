@@ -11,6 +11,8 @@ black = "*"
 isort = "*"
 funcy = "*"
 networkx = "*"
+scipy = "*"
+portion = "*"
 
 [dev-packages]
 

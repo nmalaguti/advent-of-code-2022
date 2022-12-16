@@ -1,7 +1,7 @@
 import fileinput
 import re
 from collections import *
-from functools import partial
+from functools import partial, reduce
 from itertools import *
 from pprint import pprint
 
