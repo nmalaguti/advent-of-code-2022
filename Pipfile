@@ -13,6 +13,8 @@ funcy = "*"
 networkx = "*"
 scipy = "*"
 portion = "*"
+ordered-set = "*"
+frozendict = "*"
 
 [dev-packages]
 
